@@ -1,26 +1,40 @@
+# -*- coding: utf-8 -*-
+import sys
+import io
+
+# Перенаправляем stdout и stderr в UTF-8
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if sys.stderr.encoding != 'utf-8':
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+# Все что выше, написано благодаря ИИ,
+# так как из-за проблем с кодировкой я не мог пройти тесты,
+# возвращалась ошибка UnicodeDecodeError
+
+
 # Проект FitLife - MVP версия 1.0
+DAILY_WATER_ML = 30
 
+print('''Приветствую Вас в FitLife!
+Предлагаю Вам заполнить небольшую анкету.''')
+print('Как я могу к Вам обращаться?', end=' ')
+user_name = input().title()
+print('Напишите Ваш возраст:', end=' ')
+user_age = int(input())
+print('Напишите Ваш вес (в кг):', end=' ')
+user_weight = float(input())
+print('Напишите Ваш рост (в см):', end=' ')
+user_height = float(input())
+print('Приступаю к расчетам!')
 
-# 1. Знакомство
-# TODO: Спроси у пользователя имя и сохрани в переменную user_name
-# TODO: Спроси возраст и сохрани в переменную user_age (не забудь преобразовать в число)
+# Считаем Индекс Массы Тела
+bmi = round(user_weight / (user_height ** 2), 1)
+# Считаем дневную норму воды
+water_needed_l = round((user_weight * DAILY_WATER_ML) / 1000, 3)
 
-
-# 2. Сбор данных
-# TODO: Запроси вес (в кг) и сохрани в user_weight (тип float)
-# TODO: Запроси рост (в метрах, например 1.75) и сохрани в user_height (тип float)
-
-
-# 3. Логика расчетов (Функции как "черный ящик": используем арифметику)
-# Формула ИМТ: вес разделить на (рост в квадрате)
-# TODO: Рассчитай bmi (Индекс массы тела)
-
-
-# Подсчет воды: вес * 30 мл
-# TODO: Рассчитай water_needed
-
-
-# 4. Вывод красивого результата
-# TODO: Используй f-строку, чтобы вывести приветствие, например: "Привет, Иван!"
-# TODO: Выведи возраст, ИМТ (округленный до 1 знака) и норму воды.
-print("Расчет окончен. Будьте здоровы!")
+print("=" * 40)
+print(f'''Отчет для пользователя: {user_name} ({user_age} г.)
+Ваш Индекс Массы Тела: {bmi}
+Рекомендуемая норма воды: {water_needed_l} л. в день
+Будьте здоровы и всего Вам хорошего!''')
+print("=" * 40)
